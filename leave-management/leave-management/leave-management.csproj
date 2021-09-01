@@ -16,4 +16,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Contracts\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Repository\" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,6 @@
 using leave_management.Data;
+using leave_management.Services.Contracts;
+using leave_management.Services.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,6 +32,12 @@ namespace leave_management
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            // Add references for repositories and contracts to startup file
+            services.AddScoped<ILeaveTypesRepository, LeaveTypesRepository>();
+            services.AddScoped<ILeaveHistoryRepository, LeaveHistoriesRepository>();
+            services.AddScoped<ILeaveAllocationRepository, LeaveAllocationsRepository>();
+
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)

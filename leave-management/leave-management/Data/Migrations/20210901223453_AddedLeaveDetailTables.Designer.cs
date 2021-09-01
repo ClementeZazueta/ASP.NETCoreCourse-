@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using leave_management.Data;
 
 namespace leave_management.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210901223453_AddedLeaveDetailTables")]
+    partial class AddedLeaveDetailTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -264,7 +266,6 @@ namespace leave_management.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ApprovedById")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("DateActioned")
@@ -280,7 +281,6 @@ namespace leave_management.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("RequestingEmployeeId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartDate")
@@ -411,9 +411,7 @@ namespace leave_management.Data.Migrations
                 {
                     b.HasOne("leave_management.Data.Employee", "ApprovedBy")
                         .WithMany("ApprovedBy")
-                        .HasForeignKey("ApprovedById")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("ApprovedById");
 
                     b.HasOne("leave_management.Data.LeaveType", "LeaveType")
                         .WithMany("LeaveHistory")
@@ -423,9 +421,7 @@ namespace leave_management.Data.Migrations
 
                     b.HasOne("leave_management.Data.Employee", "RequestingEmployee")
                         .WithMany("RequestingEmployee")
-                        .HasForeignKey("RequestingEmployeeId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .HasForeignKey("RequestingEmployeeId");
 
                     b.Navigation("ApprovedBy");
 
