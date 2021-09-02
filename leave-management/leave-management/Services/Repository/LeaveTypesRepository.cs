@@ -1,6 +1,6 @@
 ﻿using leave_management.Data;
 using leave_management.Services.Contracts;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,24 +17,27 @@ namespace leave_management.Services.Repository
             _context = context;
         }
 
-        public Task<bool> Create(LeaveType entity)
+        public async Task<bool> Create(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _context.LeaveTypes.Add(entity);
+            return await Save();
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _context.LeaveTypes.Remove(entity);
+            return await Save();
         }
 
-        public Task<ActionResult<LeaveType>> FindById(int id)
+        public async Task<LeaveType> FindById(int id)
         {
-            throw new NotImplementedException();
+            var leaveType = await _context.LeaveTypes.FindAsync(id);
+            return leaveType;
         }
 
-        public Task<IEnumerable<LeaveType>> GetAll()
+        public async Task<IEnumerable<LeaveType>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.LeaveTypes.ToListAsync();                                                                             
         }
 
         public Task<IEnumerable<LeaveType>> GetEmployeesByLeaveType(int id)
@@ -42,14 +45,15 @@ namespace leave_management.Services.Repository
             throw new NotImplementedException();
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> Update(LeaveType entity)
+        public async Task<bool> Update(LeaveType entity)
         {
-            throw new NotImplementedException();
+            _context.LeaveTypes.Update(entity);
+            return await Save();
         }
     }
 }

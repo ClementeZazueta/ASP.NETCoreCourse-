@@ -13,7 +13,7 @@ namespace leave_management.Data
         public string EmployeeId { get; set; }
         public int LeaveTypeId { get; set; }
 
-        public Employee Employee { get; set; }
-        public LeaveType LeaveType { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual LeaveType LeaveType { get; set; }
     }
 }

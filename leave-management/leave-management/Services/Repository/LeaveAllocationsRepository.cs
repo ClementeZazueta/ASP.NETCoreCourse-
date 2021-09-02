@@ -1,6 +1,7 @@
 ﻿using leave_management.Data;
 using leave_management.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,34 +18,38 @@ namespace leave_management.Services.Repository
             _context = context;
         }
 
-        public Task<bool> Create(LeaveAllocation entity)
+        public async Task<bool> Create(LeaveAllocation entity)
         {
-            throw new NotImplementedException();
+            _context.LeaveAllocations.Add(entity);
+            return await Save();
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(LeaveAllocation entity)
         {
-            throw new NotImplementedException();
+           _context.LeaveAllocations.Remove(entity);
+            return await Save();
         }
 
-        public Task<ActionResult<LeaveAllocation>> FindById(int id)
+        public async Task<LeaveAllocation> FindById(int id)
         {
-            throw new NotImplementedException();
+            var leaveAllocation = await _context.LeaveAllocations.FindAsync(id);
+            return leaveAllocation;
         }
 
-        public Task<IEnumerable<LeaveAllocation>> GetAll()
+        public async Task<IEnumerable<LeaveAllocation>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.LeaveAllocations.ToListAsync();
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> Update(LeaveAllocation entity)
+        public async Task<bool> Update(LeaveAllocation entity)
         {
-            throw new NotImplementedException();
+           _context.LeaveAllocations.Update(entity);
+            return await Save();
         }
     }
 }

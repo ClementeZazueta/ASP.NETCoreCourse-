@@ -1,4 +1,5 @@
 using leave_management.Data;
+using leave_management.Mappings;
 using leave_management.Services.Contracts;
 using leave_management.Services.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +38,8 @@ namespace leave_management
             services.AddScoped<ILeaveTypesRepository, LeaveTypesRepository>();
             services.AddScoped<ILeaveHistoryRepository, LeaveHistoriesRepository>();
             services.AddScoped<ILeaveAllocationRepository, LeaveAllocationsRepository>();
+
+            services.AddAutoMapper(typeof(Maps));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 

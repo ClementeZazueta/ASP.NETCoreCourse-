@@ -1,9 +1,7 @@
 ﻿using leave_management.Data;
 using leave_management.Services.Contracts;
-using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace leave_management.Services.Repository
@@ -17,34 +15,38 @@ namespace leave_management.Services.Repository
             _context = context;
         }
 
-        public Task<bool> Create(LeaveHistory entity)
+        public async Task<bool> Create(LeaveHistory entity)
         {
-            throw new NotImplementedException();
+            _context.LeaveHistories.Add(entity);
+            return await Save();
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(LeaveHistory entity)
         {
-            throw new NotImplementedException();
+            _context.LeaveHistories.Remove(entity);
+            return await Save();
         }
 
-        public Task<ActionResult<LeaveHistory>> FindById(int id)
+        public async Task<LeaveHistory> FindById(int id)
         {
-            throw new NotImplementedException();
+            var leaveHistory = await _context.LeaveHistories.FindAsync(id);
+            return leaveHistory;
         }
 
-        public Task<IEnumerable<LeaveHistory>> GetAll()
+        public async Task<IEnumerable<LeaveHistory>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.LeaveHistories.ToListAsync();
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task<bool> Update(LeaveHistory entity)
+        public async Task<bool> Update(LeaveHistory entity)
         {
-            throw new NotImplementedException();
+            _context.LeaveHistories.Update(entity);
+            return await Save();
         }
     }
 }

@@ -9,10 +9,10 @@ namespace leave_management.Services.Contracts
     public interface IRepositoryBase<TEntity> where TEntity : class 
     {
         Task<IEnumerable<TEntity>> GetAll();
-        Task<ActionResult<TEntity>> FindById(int id);
+        Task<TEntity> FindById(int id);
         Task<bool>Create(TEntity entity);
         Task<bool> Update(TEntity entity);
-        Task<bool> Delete(int id);
+        Task<bool> Delete(TEntity entity);
         Task<bool> Save();
     }
 }
