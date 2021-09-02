@@ -1,6 +1,7 @@
 ﻿using leave_management.Data.ModelConfig;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using leave_management.Models;
 
 namespace leave_management.Data
 {
@@ -24,5 +25,7 @@ namespace leave_management.Data
             builder.ApplyConfiguration(new LeaveAllocationConfig());
             builder.ApplyConfiguration(new LeaveHistoryConfig());
         }
+
+        public DbSet<leave_management.Models.DetailsLeaveTypeViewModel> DetailsLeaveTypeViewModel { get; set; }
     }
 }
