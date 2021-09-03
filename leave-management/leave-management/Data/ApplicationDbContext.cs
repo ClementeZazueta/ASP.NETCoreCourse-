@@ -26,6 +26,6 @@ namespace leave_management.Data
             builder.ApplyConfiguration(new LeaveHistoryConfig());
         }
 
-        public DbSet<leave_management.Models.DetailsLeaveTypeViewModel> DetailsLeaveTypeViewModel { get; set; }
+        public DbSet<leave_management.Models.LeaveTypeViewModel> DetailsLeaveTypeViewModel { get; set; }
     }
 }

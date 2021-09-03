@@ -1,4 +1,4 @@
-﻿@model IEnumerable<leave_management.Models.DetailsLeaveTypeViewModel>
+﻿@model IEnumerable<leave_management.Models.LeaveTypeViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,10 +25,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @item.Name
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DateCreated)
+                @item.DateCreated.Value.ToString("dd/MM/yyyy hh:MM:ss")
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

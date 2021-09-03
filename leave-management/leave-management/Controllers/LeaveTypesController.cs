@@ -26,7 +26,7 @@ namespace leave_management.Controllers
         public async Task<ActionResult> Index()
         {
             var leaveTypes = await _repo.GetAll();
-            var model = _mapper.Map<IEnumerable<LeaveType>, IEnumerable<DetailsLeaveTypeViewModel>>(leaveTypes);
+            var model = _mapper.Map<IEnumerable<LeaveType>, IEnumerable<LeaveTypeViewModel>>(leaveTypes);
 
             return View(model);
         }
@@ -46,15 +46,32 @@ namespace leave_management.Controllers
         // POST: LeaveTypesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(LeaveTypeViewModel model)
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var leaveType = _mapper.Map<LeaveType>(model);
+                leaveType.DateCreated = DateTime.Now;
+
+                var isSuccess = await _repo.Create(leaveType);
+
+                if (!isSuccess)
+                {
+                    ModelState.AddModelError("", "Something went wrong!");
+                    return View(model);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Something went wrong!");
+                return View(model);
             }
         }
 

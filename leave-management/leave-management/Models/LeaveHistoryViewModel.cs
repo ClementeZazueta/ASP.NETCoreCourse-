@@ -23,7 +23,7 @@ namespace leave_management.Models
 
         public virtual EmployeeViewModel RequestingEmployee { get; set; }
         public virtual EmployeeViewModel ApprovedBy { get; set; }
-        public virtual DetailsLeaveTypeViewModel LeaveType { get; set; }
+        public virtual LeaveTypeViewModel LeaveType { get; set; }
 
         public IEnumerable<SelectListItem> LeaveTypes { get; set; }
     }
