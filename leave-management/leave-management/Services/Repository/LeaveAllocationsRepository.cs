@@ -51,5 +51,11 @@ namespace leave_management.Services.Repository
            _context.LeaveAllocations.Update(entity);
             return await Save();
         }
+
+        public async Task<bool> IsExists(int id)
+        {
+            var exists = await _context.LeaveAllocations.AnyAsync(la => la.Id == id);
+            return exists;
+        }
     }
 }

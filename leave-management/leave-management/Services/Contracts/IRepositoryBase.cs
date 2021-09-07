@@ -10,6 +10,7 @@ namespace leave_management.Services.Contracts
     {
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> FindById(int id);
+        Task<bool> IsExists(int id);
         Task<bool>Create(TEntity entity);
         Task<bool> Update(TEntity entity);
         Task<bool> Delete(TEntity entity);

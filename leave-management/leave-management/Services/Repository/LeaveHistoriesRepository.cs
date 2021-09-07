@@ -1,6 +1,7 @@
 ﻿using leave_management.Data;
 using leave_management.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -47,6 +48,12 @@ namespace leave_management.Services.Repository
         {
             _context.LeaveHistories.Update(entity);
             return await Save();
+        }
+
+        public async Task<bool> IsExists(int id)
+        {
+            var exists = await _context.LeaveHistories.AnyAsync(lh => lh.Id == id);
+            return exists;
         }
     }
 }

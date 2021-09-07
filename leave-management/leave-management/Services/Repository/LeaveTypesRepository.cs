@@ -45,6 +45,12 @@ namespace leave_management.Services.Repository
             throw new NotImplementedException();
         }
 
+        public async Task<bool> IsExists(int id)
+        {
+            var exists = await _context.LeaveTypes.AnyAsync(lt => lt.Id == id);
+            return exists;
+        }
+
         public async Task<bool> Save()
         {
             return await _context.SaveChangesAsync() > 0;

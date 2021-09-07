@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace leave_management.Controllers
@@ -22,6 +21,7 @@ namespace leave_management.Controllers
             _mapper = mapper;
         }
 
+        #region Index
         // GET: LeaveTypesController
         public async Task<ActionResult> Index()
         {
@@ -30,13 +30,25 @@ namespace leave_management.Controllers
 
             return View(model);
         }
+        #endregion
 
+        #region Details
         // GET: LeaveTypesController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
-        }
+            if(!await _repo.IsExists(id))
+            {
+                return NotFound();
+            }
 
+            var leaveType = await _repo.FindById(id);
+            var model = _mapper.Map<LeaveTypeViewModel>(leaveType);
+
+            return View(model);
+        }
+        #endregion
+
+        #region Create
         // GET: LeaveTypesController/Create
         public ActionResult Create()
         {
@@ -74,47 +86,111 @@ namespace leave_management.Controllers
                 return View(model);
             }
         }
+        #endregion
 
+        #region Edit
         // GET: LeaveTypesController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            if (!await _repo.IsExists(id))
+            {
+                return NotFound();
+            }
+
+            var leaveType = await _repo.FindById(id);
+            var model = _mapper.Map<LeaveTypeViewModel>(leaveType);
+
+            return View(model);
         }
 
         // POST: LeaveTypesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(LeaveTypeViewModel model)
         {
             try
             {
+                // TODO: Add update logic here
+                if (!ModelState.IsValid)
+                {
+                    return View(model);
+                }
+
+                var leaveType = _mapper.Map<LeaveType>(model);
+                var isSuccess = await _repo.Update(leaveType);
+
+                if (!isSuccess)
+                {
+                    ModelState.AddModelError("", "Something went wrong!");
+                    return View(model);
+                }
+
                 return RedirectToAction(nameof(Index));
-            }
+            } 
             catch
             {
-                return View();
+                ModelState.AddModelError("", "Something went wrong!");
+                return View(model);
             }
         }
+        #endregion
 
+        #region Delete
         // GET: LeaveTypesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            try
+            {
+                var leaveType = await _repo.FindById(id);
+
+                if (leaveType is null)
+                {
+                    return NotFound();
+                }
+
+                var isSuccess = await _repo.Delete(leaveType);
+
+                if (!isSuccess)
+                {
+                    return BadRequest();
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e.Message);
+            }
         }
 
         // POST: LeaveTypesController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, LeaveTypeViewModel model)
         {
             try
             {
+                var leaveType = await _repo.FindById(id);
+
+                if (leaveType is null)
+                {
+                    return NotFound();
+                }
+
+                var isSuccess = await _repo.Delete(leaveType);
+
+                if (!isSuccess)
+                {
+                    return View(model);
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(model);
             }
         }
+        #endregion
     }
 }
