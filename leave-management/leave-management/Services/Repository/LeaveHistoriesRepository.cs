@@ -34,7 +34,7 @@ namespace leave_management.Services.Repository
             return leaveHistory;
         }
 
-        public async Task<IEnumerable<LeaveHistory>> GetAll()
+        public async Task<ICollection<LeaveHistory>> GetAll()
         {
             return await _context.LeaveHistories.ToListAsync();
         }

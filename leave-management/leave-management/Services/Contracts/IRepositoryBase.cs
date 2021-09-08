@@ -8,7 +8,7 @@ namespace leave_management.Services.Contracts
 {
     public interface IRepositoryBase<TEntity> where TEntity : class 
     {
-        Task<IEnumerable<TEntity>> GetAll();
+        Task<ICollection<TEntity>> GetAll();
         Task<TEntity> FindById(int id);
         Task<bool> IsExists(int id);
         Task<bool>Create(TEntity entity);

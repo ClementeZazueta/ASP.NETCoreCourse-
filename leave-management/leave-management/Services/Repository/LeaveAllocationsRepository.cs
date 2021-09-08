@@ -36,7 +36,7 @@ namespace leave_management.Services.Repository
             return leaveAllocation;
         }
 
-        public async Task<IEnumerable<LeaveAllocation>> GetAll()
+        public async Task<ICollection<LeaveAllocation>> GetAll()
         {
             return await _context.LeaveAllocations.ToListAsync();
         }
@@ -56,6 +56,15 @@ namespace leave_management.Services.Repository
         {
             var exists = await _context.LeaveAllocations.AnyAsync(la => la.Id == id);
             return exists;
+        }
+
+        public bool CheckAllocation(int leaveTypeId, string employeeId)
+        {
+            var period = DateTime.Now.Year;
+
+            return GetAll().Result
+                .Where(a => a.EmployeeId == employeeId && a.LeaveTypeId == leaveTypeId && a.Period == period)
+                .Any();
         }
     }
 }

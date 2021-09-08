@@ -12,6 +12,7 @@ namespace leave_management.Data
         public DateTime DateCreated { get; set; }
         public string EmployeeId { get; set; }
         public int LeaveTypeId { get; set; }
+        public int Period { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual LeaveType LeaveType { get; set; }

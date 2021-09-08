@@ -35,7 +35,7 @@ namespace leave_management.Services.Repository
             return leaveType;
         }
 
-        public async Task<IEnumerable<LeaveType>> GetAll()
+        public async Task<ICollection<LeaveType>> GetAll()
         {
             return await _context.LeaveTypes.ToListAsync();                                                                             
         }

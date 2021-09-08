@@ -27,7 +27,7 @@ namespace leave_management.Controllers
         public async Task<ActionResult> Index()
         {
             var leaveTypes = await _repo.GetAll();
-            var model = _mapper.Map<IEnumerable<LeaveType>, IEnumerable<LeaveTypeViewModel>>(leaveTypes);
+            var model = _mapper.Map<ICollection<LeaveType>, ICollection<LeaveTypeViewModel>>(leaveTypes);
 
             return View(model);
         }
